@@ -1,5 +1,5 @@
-version: '3.8'
-
+ version: '3.8'
+ 
 services:
   web:
     image: nginx:latest
@@ -9,16 +9,33 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - db
+      - cache
 
   db:
-    image: mariadb:10.6
-    environment:
-      MYSQL_ROOT_PASSWORD: password_molto_sicura
-      MYSQL_DATABASE: my_app
-    volumes:
-      - db_data:/var/lib/mysql
 
-# Task: Inserire qui sotto il servizio 'cache' usando l'immagine redis:alpine
+    image: mariadb:10.6
+
+    environment:
+
+      MYSQL_ROOT_PASSWORD: password_molto_sicura
+
+      MYSQL_DATABASE: my_app
+
+    volumes:
+
+      - db_data:/var/lib/mysql
+      cache_data:
+
+     
+  cache:
+    image: redis:alpine
+    container_name: redis_cache
+    restart: always
+    volumes:
+      - cache_data:/data
+
 
 volumes:
+
   db_data:
+  cache_data:
