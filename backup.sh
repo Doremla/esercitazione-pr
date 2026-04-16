@@ -9,6 +9,7 @@ echo "Inizio backup dei dati..."
 
 # BUG: Lo script fallisce se DEST_DIR non esiste. 
 # Serve un comando che crei la cartella prima del backup.
+mkdir "/backups/daily"
 cp -r $SOURCE_DIR "$DEST_DIR/backup_$TIMESTAMP"
 
 if [ $? -eq 0 ]; then
